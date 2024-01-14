@@ -77,9 +77,9 @@ int Remove(char* string, Stringset* stringset)
             strcpy(stringset->charList[removeMapping.indexOfRemoval], stringset->charList[lastPosition]);
 
             memset(stringset->charList[lastPosition], '\0', MAX_CHAR_LENGTH);
-            stringset->numberOfElements--;
+            
         }
-
+        stringset->numberOfElements--;
         return 0;
     }
 
@@ -114,13 +114,10 @@ int main()
 
     char alma[MAX_CHAR_LENGTH] = "alma";
     char korte[MAX_CHAR_LENGTH] = "korte";
-    char szilva[MAX_CHAR_LENGTH] = "szilva";
-    char banan[MAX_CHAR_LENGTH] = "banan";
-    Init(&stringset, 4);
+       
+    Init(&stringset, 2);
     Insert(alma,&stringset);
     Insert(korte,&stringset);
-    Insert(szilva,&stringset);
-    Insert(banan,&stringset);
     DisplayStateDetailed(&stringset);
     
     Remove(korte, &stringset);
