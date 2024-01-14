@@ -1,0 +1,100 @@
+gcc Stringset.c -Wall -o feladat.exe
+
+int main_insertAlmaKorte_RemoveKorte_worksFine()
+{
+    Stringset stringset;
+
+    char alma[MAX_CHAR_LENGTH] = "alma";
+    char korte[MAX_CHAR_LENGTH] = "korte";
+       
+    Init(&stringset, 2);
+    Insert(alma,&stringset);
+    Insert(korte,&stringset);
+    DisplayStateDetailed(&stringset);
+    
+    Remove(korte, &stringset);
+    DisplayStateDetailed(&stringset);
+    
+    Destroy(&stringset);
+    DisplayStateDetailed(&stringset);
+    return 0;
+}
+
+int main_TryInsertSameValueTwice()
+{
+    Stringset stringset;
+
+    char alma[MAX_CHAR_LENGTH] = "alma";
+
+    Init(&stringset, 2);
+    Insert(alma,&stringset);
+    Insert(alma,&stringset);
+
+    DisplayStateDetailed(&stringset);
+    
+    Destroy(&stringset);
+    DisplayStateDetailed(&stringset);
+    return 0;
+}
+
+int main_TryRemoveItem_ThatIs_NotElement()
+{
+    Stringset stringset;
+
+    char alma[MAX_CHAR_LENGTH] = "alma";
+    char korte[MAX_CHAR_LENGTH] = "korte";
+
+    Init(&stringset, 2);
+    Insert(alma,&stringset);
+    DisplayStateDetailed(&stringset);
+    
+    Remove(korte, &stringset);
+    Destroy(&stringset);
+    DisplayStateDetailed(&stringset);
+    return 0;
+}
+int main_ReachCapacity_WarnUser()
+{
+    Stringset stringset;
+
+    char alma[MAX_CHAR_LENGTH] = "alma";
+    char korte[MAX_CHAR_LENGTH] = "korte";
+    char szilva[MAX_CHAR_LENGTH] = "szilva";
+
+    Init(&stringset, 2);
+    Insert(alma,&stringset);
+    Insert(korte,&stringset);
+    Insert(szilva, &stringset);
+    Destroy(&stringset);
+    return 0;
+}
+int main_DropItem_ReplaceEmptyCapacity_WithNewItem()
+{
+    Stringset stringset;
+    int cap = 5;
+
+    char alma[MAX_CHAR_LENGTH] = "alma";
+    char korte[MAX_CHAR_LENGTH] = "korte";
+    char szilva[MAX_CHAR_LENGTH] = "szilva";
+    char meggy[MAX_CHAR_LENGTH] = "meggy";
+    char cseresznye[MAX_CHAR_LENGTH] = "cseresznye";
+    char szolo[MAX_CHAR_LENGTH] = "szolo";
+
+    Init(&stringset, cap);
+    
+    Insert(alma,&stringset);
+    Insert(korte,&stringset);
+    Insert(szilva, &stringset);
+    Insert(meggy, &stringset);
+    Insert(cseresznye, &stringset);
+    DisplayStateDetailed(&stringset);
+
+    Remove(szilva, &stringset);
+    DisplayStateDetailed(&stringset);
+
+    Insert(szolo, &stringset);
+    DisplayStateDetailed(&stringset);
+
+    Destroy(&stringset);
+    return 0;
+}

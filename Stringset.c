@@ -45,10 +45,12 @@ RemoveMapping Contains(char* string, Stringset* stringset){
 int Insert(char* string, Stringset* stringset)
 {
     if(stringset->capacity <= stringset->numberOfElements){
+        printf("Item '%s' cannot be placed, as capacity(%d) reached.", string, stringset->capacity);
         return 1;
     }
 
     if(Contains(string, stringset).foundValue == 0){
+        printf("Item '%s' is already a member of the set.\n", string);
         return 1;
     }
 
@@ -81,6 +83,8 @@ int Remove(char* string, Stringset* stringset)
         }
         stringset->numberOfElements--;
         return 0;
+    }else{
+        printf("Item '%s' not found, therefore cannot remove.\n", string);
     }
 
     return 1;
