@@ -16,21 +16,21 @@ void Init(Stringset* stringset, int length)
     stringset->numberOfElements = 0;
     
     stringset->charList = (char**)malloc(length * sizeof(char*));
-    for(int i = 0; i<length;i++)
-    {
-        stringset->charList[i] = (char*)malloc(sizeof(char) * MAX_CHAR_LENGTH); //lehet hogy itt a sizeofban a char-t szoroznom kellene, mert igy csak charokat teszek bele?
-    }
+    // for(int i = 0; i<length;i++)
+    // {
+    //     stringset->charList[i] = (char*)malloc(sizeof(char) * MAX_CHAR_LENGTH); 
+    // }
 }
 
-RemoveMapping Contains(char* string, Stringset* stringset){
-    RemoveMapping removeMapping;
+RemoveMappingResult Contains(char* string, Stringset* stringset){
+    RemoveMappingResult removeMapping;
     removeMapping.foundValue = -1;
     removeMapping.indexOfRemoval = -1;
 
     int i = -1;
     int cont = -1;
     int n = stringset->numberOfElements;
-    while(i < n && cont !=0)
+    while(i < n -1 && cont !=0 )
     {
         i++;
         cont = strcmp(string, stringset->charList[i]);
@@ -56,14 +56,15 @@ int Insert(char* string, Stringset* stringset)
 
     stringset->numberOfElements++;
     int indexToPaste = stringset->numberOfElements-1;
-
+    
+    stringset->charList[indexToPaste] = (char*)malloc(sizeof(char) * MAX_CHAR_LENGTH); 
     strcpy(stringset->charList[indexToPaste], string);
 
     return 0;
 }
 int Remove(char* string, Stringset* stringset)
 {
-    RemoveMapping removeMapping;
+    RemoveMappingResult removeMapping;
     removeMapping = Contains(string, stringset);
     if(removeMapping.foundValue == 0)
     {
@@ -74,11 +75,12 @@ int Remove(char* string, Stringset* stringset)
         }else
         {
             int lastPosition = stringset->numberOfElements - 1;
-            memset(stringset->charList[removeMapping.indexOfRemoval], '\0', MAX_CHAR_LENGTH);
+            memset(stringset->charList[removeMapping.indexOfRemoval], '\0', MAX_CHAR_LENGTH); //drop item 
             
-            strcpy(stringset->charList[removeMapping.indexOfRemoval], stringset->charList[lastPosition]);
+            strcpy(stringset->charList[removeMapping.indexOfRemoval], stringset->charList[lastPosition]); // copy last item to new free position
 
-            memset(stringset->charList[lastPosition], '\0', MAX_CHAR_LENGTH);
+            memset(stringset->charList[lastPosition], '\0', MAX_CHAR_LENGTH); // empty last position
+            free(stringset->charList[lastPosition]);
             
         }
         stringset->numberOfElements--;
@@ -92,7 +94,7 @@ int Remove(char* string, Stringset* stringset)
 
 void Destroy(Stringset* stringset)
 {
-    for(int i = 0; i < stringset->capacity; i++)
+    for(int i = 0; i < stringset->numberOfElements; i++)
     {
         free(stringset->charList[i]);
     }
@@ -115,19 +117,30 @@ void DisplayStateDetailed(Stringset* stringset)
 int main()
 {
     Stringset stringset;
+    int cap = 5;
 
     char alma[MAX_CHAR_LENGTH] = "alma";
     char korte[MAX_CHAR_LENGTH] = "korte";
-       
-    Init(&stringset, 2);
+    char szilva[MAX_CHAR_LENGTH] = "szilva";
+    char meggy[MAX_CHAR_LENGTH] = "meggy";
+    char cseresznye[MAX_CHAR_LENGTH] = "cseresznye";
+    char szolo[MAX_CHAR_LENGTH] = "szolo";
+
+    Init(&stringset, cap);
+    
     Insert(alma,&stringset);
     Insert(korte,&stringset);
+    Insert(szilva, &stringset);
+    Insert(meggy, &stringset);
+    Insert(cseresznye, &stringset);
     DisplayStateDetailed(&stringset);
-    
-    Remove(korte, &stringset);
+
+    Remove(szilva, &stringset);
     DisplayStateDetailed(&stringset);
-    
+
+    Insert(szolo, &stringset);
+    DisplayStateDetailed(&stringset);
+
     Destroy(&stringset);
-    DisplayStateDetailed(&stringset);
     return 0;
 }
