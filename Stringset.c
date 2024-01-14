@@ -68,17 +68,16 @@ int Remove(char* string, Stringset* stringset)
         if(removeMapping.indexOfRemoval == stringset->capacity - 1)
         {
             // item in the last position, removal is enough
-            free(stringset->charList[removeMapping.indexOfRemoval]);
-            stringset->charList[removeMapping.indexOfRemoval] = (char*)malloc(sizeof(char) * MAX_CHAR_LENGTH);
+            memset(stringset->charList[removeMapping.indexOfRemoval], '\0', MAX_CHAR_LENGTH);
         }else
         {
-            free(stringset->charList[removeMapping.indexOfRemoval]);
-            stringset->charList[removeMapping.indexOfRemoval] = (char*)malloc(sizeof(char) * MAX_CHAR_LENGTH);
-            stringset->charList[removeMapping.indexOfRemoval] =  stringset->charList[stringset->capacity - 1];
+            int lastPosition = stringset->numberOfElements - 1;
+            memset(stringset->charList[removeMapping.indexOfRemoval], '\0', MAX_CHAR_LENGTH);
             
-            free(stringset->charList[stringset->capacity - 1]);
-            stringset->charList[stringset->capacity - 1] = (char*)malloc(sizeof(char) * MAX_CHAR_LENGTH);
+            strcpy(stringset->charList[removeMapping.indexOfRemoval], stringset->charList[lastPosition]);
 
+            memset(stringset->charList[lastPosition], '\0', MAX_CHAR_LENGTH);
+            stringset->numberOfElements--;
         }
 
         return 0;
@@ -113,10 +112,10 @@ int main()
 {
     Stringset stringset;
 
-    char alma[] = "alma";
-    char korte[] = "korte";
-    char szilva[] = "szilva";
-    char banan[] = "banan";
+    char alma[MAX_CHAR_LENGTH] = "alma";
+    char korte[MAX_CHAR_LENGTH] = "korte";
+    char szilva[MAX_CHAR_LENGTH] = "szilva";
+    char banan[MAX_CHAR_LENGTH] = "banan";
     Init(&stringset, 4);
     Insert(alma,&stringset);
     Insert(korte,&stringset);
