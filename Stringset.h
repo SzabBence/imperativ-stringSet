@@ -17,12 +17,11 @@ typedef struct RemoveMappingResult
     int foundValue;
 } RemoveMappingResult ;
 
-void Init(Stringset* stringset, int length);
-
-int Insert(char* string, Stringset* stringset);
 RemoveMappingResult Contains(char* string, Stringset* stringset);
-int Remove(char* string, Stringset* stringset);
 
+void Init(Stringset* stringset, int length);
 void Destroy(Stringset* stringset);
+int Insert(char* string, Stringset* stringset);
+int Remove(char* string, Stringset* stringset);
 
 #endif
