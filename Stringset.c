@@ -2,24 +2,13 @@
 #include<stdio.h>
 #include<string.h>
 #include <stdlib.h>
-void freeCharArray(char* charArray)
-{
-    if (charArray != NULL)
-    {
-        free(charArray);
-        charArray = NULL;  
-    }
-}
+
 void Init(Stringset* stringset, int length)
 {
     stringset->capacity = length;
     stringset->numberOfElements = 0;
     
     stringset->charList = (char**)malloc(length * sizeof(char*));
-    // for(int i = 0; i<length;i++)
-    // {
-    //     stringset->charList[i] = (char*)malloc(sizeof(char) * MAX_CHAR_LENGTH); 
-    // }
 }
 
 RemoveMappingResult Contains(char* string, Stringset* stringset){
@@ -72,6 +61,7 @@ int Remove(char* string, Stringset* stringset)
         {
             // item in the last position, removal is enough
             memset(stringset->charList[removeMapping.indexOfRemoval], '\0', MAX_CHAR_LENGTH);
+            free(stringset->charList[stringset->capacity - 1]);
         }else
         {
             int lastPosition = stringset->numberOfElements - 1;
@@ -125,6 +115,7 @@ int main()
     char meggy[MAX_CHAR_LENGTH] = "meggy";
     char cseresznye[MAX_CHAR_LENGTH] = "cseresznye";
     char szolo[MAX_CHAR_LENGTH] = "szolo";
+    char banan[MAX_CHAR_LENGTH] = "banan";
 
     Init(&stringset, cap);
     
@@ -139,6 +130,12 @@ int main()
     DisplayStateDetailed(&stringset);
 
     Insert(szolo, &stringset);
+    DisplayStateDetailed(&stringset);
+
+    Remove(szolo, &stringset);
+    DisplayStateDetailed(&stringset);
+
+    Insert(banan, &stringset);
     DisplayStateDetailed(&stringset);
 
     Destroy(&stringset);
